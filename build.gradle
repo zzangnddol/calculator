@@ -17,10 +17,25 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.cucumber:cucumber-java:latest.release'
+	testImplementation 'io.cucumber:cucumber-junit-platform-engine:latest.release'
+	testImplementation 'org.junit.platform:junit-platform-suite:latest.release'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+// tasks.named('test') {
+// 	useJUnitPlatform()
+// }
+
+// tasks.register('acceptanceTest', Test) {
+// 	include '**/acceptance/**'
+// 	systemProperties System.getProperties()
+// }
+
+tasks {
+	test {
+		systemProperty "calculator.url", System.getProperty("calculator.url")
+		useJUnitPlatform()
+	}
 }
 
 jacocoTestCoverageVerification {
