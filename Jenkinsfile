@@ -50,5 +50,21 @@ pipeline {
                 sh "docker build -t ybsong/calculator ."
             }
         }
+        stage("Deploy to staging") {
+            steps {
+                sh "docker run -d --rm -p 8765:8080 --name calculator ybsong/calculator"
+            }
+        }
+        stage("Acceptance test") {
+            steps {
+                sleep 60
+                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
+            }
+            post {
+                always {
+                    sh "docker stop calculator"
+                }
+            }
+        }
     }
 }
