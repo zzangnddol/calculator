@@ -46,6 +46,7 @@ pipeline {
         }
         stage("Docker build") {
             steps {
+                sleep 600
                 sh "docker build -t ybsong/calculator ."
             }
         }
