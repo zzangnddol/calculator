@@ -39,5 +39,16 @@ pipeline {
                 }
             }
         }
+        stage("Package") {
+            steps {
+                sh "./gradlew build"
+            }
+        }
+        stage("Docker build") {
+            steps {
+                // sleep 600
+                sh "docker build -t ybsong/calculator ."
+            }
+        }
     }
 }
