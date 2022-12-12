@@ -50,5 +50,16 @@ pipeline {
                 sh "docker build -t ybsong/calculator ."
             }
         }
+        stage("Restart") {
+          steps {
+            sh 'docker ps -q --filter name=calculator | grep -q . && docker stop calculator && docker rm calculator'
+            sh 'docker run -d --name calculator -p 8080:8080 ybsong/calculator'
+          }
+        }
+        stage("Finish") {
+          steps {
+            sh 'docker images -qf dangling=true | xargs -I{} docker rmi {}'
+          }
+        }
     }
 }
